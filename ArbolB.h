@@ -5,6 +5,7 @@ class ArbolBinario
 {
 protected:
 	 Nodo* raiz;
+	 Nodo* actual;
 public:
 	ArbolBinario() 
 	{
@@ -58,4 +59,15 @@ public:
 	{
 		return new Nodo(ramaIzqda, dato, ramaDrcha);
 	}
+
+	void setNodoActual(Nodo* a)
+	{
+		actual = a;
+	}
+
+	Nodo* getNodoActual()
+	{
+		return actual;
+	}
+
 };
