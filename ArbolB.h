@@ -25,14 +25,6 @@ public:
 	{
 		return raiz;
 	}
-	
-	Nodo raizArbol()
-	{
-		if (raiz)
-			return *raiz;
-		else
-			throw " arbol vacio";
-	}
 
 	bool esVacio()
 	{

@@ -99,8 +99,8 @@ namespace Examen4 {
 			this->txtBox_pregunta = (gcnew System::Windows::Forms::TextBox());
 			this->b_aceptar = (gcnew System::Windows::Forms::Button());
 			this->gb_adivino = (gcnew System::Windows::Forms::GroupBox());
-			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->b_otraVez = (gcnew System::Windows::Forms::Button());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			this->groupBox2->SuspendLayout();
 			this->gb_preguntar->SuspendLayout();
@@ -262,25 +262,13 @@ namespace Examen4 {
 			this->gb_adivino->BackColor = System::Drawing::SystemColors::MenuText;
 			this->gb_adivino->Controls->Add(this->b_otraVez);
 			this->gb_adivino->Controls->Add(this->label4);
-			this->gb_adivino->Location = System::Drawing::Point(-2, 2);
+			this->gb_adivino->Location = System::Drawing::Point(1, 2);
 			this->gb_adivino->Name = L"gb_adivino";
 			this->gb_adivino->Size = System::Drawing::Size(525, 275);
 			this->gb_adivino->TabIndex = 6;
 			this->gb_adivino->TabStop = false;
 			this->gb_adivino->Text = L"Termino el juego";
 			this->gb_adivino->Visible = false;
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Engravers MT", 26.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Underline)),
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->label4->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->label4->Location = System::Drawing::Point(24, 83);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(479, 41);
-			this->label4->TabIndex = 0;
-			this->label4->Text = L"Adivinador GANA";
 			// 
 			// b_otraVez
 			// 
@@ -293,6 +281,18 @@ namespace Examen4 {
 			this->b_otraVez->Text = L"Volver a jugar";
 			this->b_otraVez->UseVisualStyleBackColor = false;
 			this->b_otraVez->Click += gcnew System::EventHandler(this, &MyForm::b_otraVez_Click);
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Engravers MT", 26.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Underline)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->label4->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->label4->Location = System::Drawing::Point(24, 83);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(479, 41);
+			this->label4->TabIndex = 0;
+			this->label4->Text = L"Adivinador GANA";
 			// 
 			// MyForm
 			// 
@@ -330,6 +330,7 @@ namespace Examen4 {
 	private: System::Void b_jugar_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		sistema->setMemoria(arbolMemoria);
+
 		bool EstadoMemoria = sistema->leerMemoria(); // el estado de memoria recibe el estado de la lectura de memoria del sistema
 		// el estado de memoria sera falso si el archivo de memoria esta vacio
 		// el estado de memoria sera verdadero si al momneto de leer la memria esta obtuvo un valor. 
@@ -397,6 +398,10 @@ private: System::Void b_si_Click(System::Object^ sender, System::EventArgs^ e) {
 		arbolMemoria->setNodoActual(nodoSi);
 	}
 	else {
+		groupBox2->Visible =false;
+		b_no->Visible = false;
+		b_si->Visible = false;
+		gb_preguntar->Visible = false;
 		gb_adivino->Visible = true;
 	}
 
@@ -413,21 +418,37 @@ private: System::Void b_aceptar_Click(System::Object^ sender, System::EventArgs^
 	gb_preguntar->Visible = false;
 	b_aceptar->Visible = false;
 
+	groupBox2->Visible = false;
+	b_si->Visible = false;
+	b_no->Visible = false;
+	
 	b_jugar->Enabled = true;
 
 }
 private: System::Void b_no_Click(System::Object^ sender, System::EventArgs^ e) {
 
-	Nodo* nodoNo = arbolMemoria->getNodoActual()->subArbolDcho();
-	String^ strPregunta = gcnew String(nodoNo->valorNodo()); //convertimos el const char en un string para el winForm y poder escribirlo en el textBox
+ 	Nodo* nodoNo = arbolMemoria->getNodoActual()->subArbolDcho();
+	
+	if (nodoNo) {
+		String^ strPregunta = gcnew String(nodoNo->valorNodo()); //convertimos el const char en un string para el winForm y poder escribirlo en el textBox
 
+		textPregunta->Text = strPregunta;
 
-	textPregunta->Text = strPregunta;
+		arbolMemoria->setNodoActual(nodoNo);
+	}
+	else {
+		gb_preguntar->Visible = true; //esto se logra por medio de la ventana y la accion del boton aceptar.
+		b_aceptar->Visible = true;
 
-	arbolMemoria->setNodoActual(nodoNo);
+		b_jugar->Enabled = false;
+
+	}
 }
 private: System::Void b_otraVez_Click(System::Object^ sender, System::EventArgs^ e) {
 	gb_adivino->Visible = false;
+	b_jugar->Enabled = true;
+	b_no->Visible = false;
+	b_si->Visible = false;
 	 
 }
 };

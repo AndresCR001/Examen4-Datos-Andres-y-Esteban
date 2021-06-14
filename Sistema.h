@@ -62,26 +62,32 @@ public:
 		Nodo* nodoPregunta;
 		Nodo* nodoRespuesta;
 		Nodo* nodoGane;
+		Nodo* nodoActual;
 
+		if (arbolM->Oraiz() == 0) {
 
-		nodoGane = arbolM->nuevoArbol(0, "G", 0);
+			nodoGane = arbolM->nuevoArbol(0, "G", 0);
 
-		nodoRespuesta = arbolM->nuevoArbol(nodoGane, respuesta, 0);
+			nodoRespuesta = arbolM->nuevoArbol(nodoGane, respuesta, 0);
 
-		nodoPregunta = arbolM->nuevoArbol(nodoRespuesta, pregunta, 0);
+			nodoPregunta = arbolM->nuevoArbol(nodoRespuesta, pregunta, 0);
 
-		arbolM->Praiz(nodoPregunta);
+			arbolM->Praiz(nodoPregunta);
+		}
+		else {
+			nodoGane = arbolM->nuevoArbol(0, "G", 0);
+
+			nodoRespuesta = arbolM->nuevoArbol(nodoGane, respuesta, 0);
+
+			nodoPregunta = arbolM->nuevoArbol(nodoRespuesta, pregunta, 0);
+
+			nodoActual = arbolM->getNodoActual();
+			nodoActual->ramaDcho(nodoPregunta);
+
+		}
 		setMemoria(arbolM);
 		actualizarMemoria(getMemoria());
 		
-		
-		
-		
-
-		//buscar en el archivo una pregunta si no existe, crea una (raiz del arbol)
-		//se debe recorrer en arbol de alguna manera par leer y escribir  en el archivo y asi poder volver a armar el arbol. 
-
-		//de lo contrario agega la pregunta al arbol dependiendo de la respuesta  
 
 	}
 
